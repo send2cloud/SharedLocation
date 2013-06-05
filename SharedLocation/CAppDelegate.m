@@ -11,6 +11,7 @@
 @implementation CAppDelegate
 
 @synthesize window = _window;
+@synthesize location;
 
 - (void)dealloc
 {
@@ -20,7 +21,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    location.x = 0.0f;
+    location.y = 0.0f;
     return YES;
 }
 							
@@ -49,6 +51,19 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_4_2)
+{
+    NSLog(@"Notified URL: %@", [url query]);
+    NSString* strQuery = [url query];
+    NSRange latDec = [strQuery rangeOfString:@","];
+    NSString* strLat = [strQuery substringWithRange:NSMakeRange(2, latDec.location - 2)];
+    NSString* strLon = [strQuery substringFromIndex:latDec.location + latDec.length];
+    location.x = [strLat floatValue];
+    location.y = [strLon floatValue];
+
+    return YES;
 }
 
 @end

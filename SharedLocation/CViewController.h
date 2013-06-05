@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAD/iAd.h>
+#import <MessageUI/MFMessageComposeViewController.h>
 
-@interface CViewController : UIViewController
+@interface CViewController : UIViewController<MFMessageComposeViewControllerDelegate> {
+    IBOutlet UIButton* btnRequest;
+    CGPoint location;
+}
+
+// 'Request Location' Button responder
+-(IBAction)btnQueryLocationClicked:(id)sender;
 
 @end
